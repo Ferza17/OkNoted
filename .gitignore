@@ -253,3 +253,4 @@ doc/api/
 ### OkNoted
 # flutter_rust_bridge web build output
 app/web/pkg/
+.claude
