@@ -4,3 +4,5 @@
 //! through the `Storage`, `Transport`, `Clock`, and `Rng` traits (added in M2).
 #![forbid(unsafe_code)]
 #![warn(missing_docs)]
+
+pub mod signal;
