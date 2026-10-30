@@ -6,7 +6,8 @@
 |---|---|---|
 | Rust | latest stable (pinned in `rust-toolchain.toml`) | via `rustup` |
 | Flutter | latest stable | stable channel |
-| flutter_rust_bridge_codegen | v2 | `cargo install flutter_rust_bridge_codegen` |
+| flutter_rust_bridge_codegen | 2.13.0 (must match the crate) | `cargo install flutter_rust_bridge_codegen --version 2.13.0 --locked` |
+| wasm-pack | 0.13.1 (newer needs Rust ≥ 1.91) | `cargo install wasm-pack --version 0.13.1 --locked` (web only) |
 | cargo-deny | latest | `cargo install cargo-deny` |
 | Docker | optional | to run the relay |
 
@@ -29,7 +30,7 @@ rustup target add aarch64-apple-ios aarch64-apple-ios-sim
 | Android | Android Studio, NDK (version per `app/android/app/build.gradle`), set `ANDROID_NDK_HOME` |
 | Windows | Visual Studio Build Tools (C++ workload) |
 | Linux | `clang cmake ninja-build pkg-config libgtk-3-dev libsecret-1-dev` |
-| Web | Chrome; `wasm-pack` is not needed (handled by frb) |
+| Web | Chrome, `wasm-pack`, and nightly Rust with `rust-src` (`rustup component add rust-src --toolchain nightly`): frb builds `std` with atomics for WASM threads |
 
 ## 3. First run
 

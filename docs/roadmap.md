@@ -4,12 +4,12 @@ Work through the milestones in order. Each milestone has acceptance criteria tha
 
 ## M0 — Repository foundation
 
-- [ ] Cargo workspace with 6 empty crates that compile
-- [ ] `rust-toolchain.toml`, `deny.toml`, `.gitignore`
-- [ ] Empty Flutter app in `app/` with flutter_rust_bridge set up; a `greet()` function from Rust is shown on screen
-- [ ] `scripts/codegen.sh`, `scripts/run-web.sh`
-- [ ] CI: `rust.yml` (fmt, clippy, test, wasm check, deny) and `flutter.yml` (analyze, test)
-- [ ] LICENSE, README, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY
+- [x] Cargo workspace with 6 empty crates that compile
+- [x] `rust-toolchain.toml`, `deny.toml`, `.gitignore`
+- [x] Empty Flutter app in `app/` with flutter_rust_bridge set up; a `greet()` function from Rust is shown on screen
+- [x] `scripts/codegen.sh`, `scripts/run-web.sh`
+- [x] CI: `rust.yml` (fmt, clippy, test, wasm check, deny) and `flutter.yml` (analyze, test)
+- [x] LICENSE-MIT + LICENSE-APACHE (MIT OR Apache-2.0), README, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY
 
 **Accepted when:** `greet()` runs on desktop **and** web; CI is green.
 
