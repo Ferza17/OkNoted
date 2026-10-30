@@ -18,3 +18,4 @@ Every important architectural decision is recorded here so agents and contributo
 | 0004 | Seed-phrase identity, no account server | Accepted |
 | 0005 | Async trait pattern across native & WASM | Accepted |
 | 0006 | Web sync via WebRTC + signaling relay | Accepted |
+| 0007 | Web risk spike results (M1) | Accepted |

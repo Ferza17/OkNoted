@@ -68,11 +68,23 @@ mod tests {
 
     #[test]
     fn wire_format_matches_spec() {
-        let join = ClientMessage::Join { room: "ab".into(), peer: "p1".into() };
-        assert_eq!(serde_json::to_value(&join).unwrap(), json!({"type": "join", "room": "ab", "peer": "p1"}));
+        let join = ClientMessage::Join {
+            room: "ab".into(),
+            peer: "p1".into(),
+        };
+        assert_eq!(
+            serde_json::to_value(&join).unwrap(),
+            json!({"type": "join", "room": "ab", "peer": "p1"})
+        );
         let leave: ClientMessage = serde_json::from_value(json!({"type": "leave"})).unwrap();
         assert_eq!(leave, ClientMessage::Leave);
-        let signal = RelayMessage::Signal { from: "p1".into(), payload: "x".into() };
-        assert_eq!(serde_json::to_value(&signal).unwrap(), json!({"type": "signal", "from": "p1", "payload": "x"}));
+        let signal = RelayMessage::Signal {
+            from: "p1".into(),
+            payload: "x".into(),
+        };
+        assert_eq!(
+            serde_json::to_value(&signal).unwrap(),
+            json!({"type": "signal", "from": "p1", "payload": "x"})
+        );
     }
 }

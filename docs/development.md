@@ -30,7 +30,7 @@ rustup target add aarch64-apple-ios aarch64-apple-ios-sim
 | Android | Android Studio, NDK (version per `app/android/app/build.gradle`), set `ANDROID_NDK_HOME` |
 | Windows | Visual Studio Build Tools (C++ workload) |
 | Linux | `clang cmake ninja-build pkg-config libgtk-3-dev libsecret-1-dev` |
-| Web | Chrome, `wasm-pack`, and nightly Rust with `rust-src` (`rustup component add rust-src --toolchain nightly`): frb builds `std` with atomics for WASM threads |
+| Web | Chrome, `wasm-pack`, nightly Rust with `rust-src` (`rustup component add rust-src --toolchain nightly`): frb builds `std` with atomics for WASM threads; `clang` with the wasm32 backend (compiles SQLite; Ubuntu's `clang` package works) |
 
 ## 3. First run
 
@@ -53,13 +53,15 @@ Cross-Origin-Opener-Policy: same-origin
 Cross-Origin-Embedder-Policy: require-corp
 ```
 
-`./scripts/run-web.sh` builds the WASM and runs `flutter run -d chrome` with the headers above.
+`./scripts/run-web.sh` builds the WASM (with SQLite compiled for shared memory) and runs `flutter run -d chrome` with the headers above.
 
 To test web sync, run a local relay:
 
 ```bash
 cargo run -p oknoted-relay -- --listen 127.0.0.1:8787
 ```
+
+M1 spike screen (the app's home screen for now): "Write 1,000 rows" / "Read rows" exercise SQLite in OPFS (reload the page to see the rows persist), "Run round-trip" exercises Loro, and "Connect" in two windows joins the relay room `spike` and opens a WebRTC DataChannel. Use two **separate profiles** (e.g. a normal and an incognito window): two tabs of one profile cannot share the OPFS database and see each other's frb stream events (ADR 0007).
 
 ## 5. Testing sync between devices
 

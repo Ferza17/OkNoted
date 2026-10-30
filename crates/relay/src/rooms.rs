@@ -24,7 +24,12 @@ pub struct Rooms(HashMap<String, HashMap<String, Outbox>>);
 
 impl Rooms {
     /// Adds `peer` to `room`, tells the others, and returns the peers already there.
-    pub fn join(&mut self, room: &str, peer: &str, outbox: Outbox) -> Result<Vec<String>, JoinError> {
+    pub fn join(
+        &mut self,
+        room: &str,
+        peer: &str,
+        outbox: Outbox,
+    ) -> Result<Vec<String>, JoinError> {
         let members = self.0.entry(room.to_owned()).or_default();
         if members.contains_key(peer) {
             return Err(JoinError::PeerTaken);
@@ -33,18 +38,30 @@ impl Rooms {
             return Err(JoinError::RoomFull);
         }
         let existing: Vec<String> = members.keys().cloned().collect();
-        broadcast(members, &RelayMessage::Joined { peer: peer.to_owned() });
+        broadcast(
+            members,
+            &RelayMessage::Joined {
+                peer: peer.to_owned(),
+            },
+        );
         members.insert(peer.to_owned(), outbox);
         Ok(existing)
     }
 
     /// Removes `peer` from `room`, tells the others, and drops the room when empty.
     pub fn leave(&mut self, room: &str, peer: &str) {
-        let Some(members) = self.0.get_mut(room) else { return };
+        let Some(members) = self.0.get_mut(room) else {
+            return;
+        };
         if members.remove(peer).is_none() {
             return;
         }
-        broadcast(members, &RelayMessage::Left { peer: peer.to_owned() });
+        broadcast(
+            members,
+            &RelayMessage::Left {
+                peer: peer.to_owned(),
+            },
+        );
         if members.is_empty() {
             self.0.remove(room);
         }
@@ -53,13 +70,14 @@ impl Rooms {
     /// Forwards `payload` from `from` to `to`, only within the same room.
     pub fn signal(&self, room: &str, from: &str, to: &str, payload: String) {
         if let Some(target) = self.0.get(room).and_then(|m| m.get(to)) {
-            send(target, &RelayMessage::Signal { from: from.to_owned(), payload });
+            send(
+                target,
+                &RelayMessage::Signal {
+                    from: from.to_owned(),
+                    payload,
+                },
+            );
         }
-    }
-
-    /// Number of live rooms.
-    pub fn len(&self) -> usize {
-        self.0.len()
     }
 }
 
@@ -85,7 +103,10 @@ pub struct RateLimit {
 impl RateLimit {
     /// Starts a fresh window at `now`.
     pub fn new(now: Instant) -> Self {
-        Self { window_start: now, count: 0 }
+        Self {
+            window_start: now,
+            count: 0,
+        }
     }
 
     /// Records one message at `now`; returns `false` once the limit is exceeded.
@@ -128,7 +149,10 @@ mod tests {
         rooms.join("r2", "c", c).unwrap();
         rooms.signal("r1", "a", "b", "hi".into());
         rooms.signal("r1", "a", "c", "nope".into());
-        assert_eq!(b_rx.try_recv().unwrap(), r#"{"type":"signal","from":"a","payload":"hi"}"#);
+        assert_eq!(
+            b_rx.try_recv().unwrap(),
+            r#"{"type":"signal","from":"a","payload":"hi"}"#
+        );
         assert!(c_rx.try_recv().is_err());
     }
 
@@ -141,12 +165,15 @@ mod tests {
             keep.push(rx);
             rooms.join("r", &i.to_string(), tx).unwrap();
         }
-        assert_eq!(rooms.join("r", "extra", outbox().0), Err(JoinError::RoomFull));
+        assert_eq!(
+            rooms.join("r", "extra", outbox().0),
+            Err(JoinError::RoomFull)
+        );
         assert_eq!(rooms.join("r", "0", outbox().0), Err(JoinError::PeerTaken));
         for i in 0..MAX_PEERS_PER_ROOM {
             rooms.leave("r", &i.to_string());
         }
-        assert_eq!(rooms.len(), 0);
+        assert!(rooms.0.is_empty());
     }
 
     #[test]

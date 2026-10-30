@@ -4,6 +4,7 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/simple.dart';
+import 'api/spike.dart';
 
 import 'dart:async';
 import 'dart:convert';
@@ -69,7 +70,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0';
 
   @override
-  int get rustContentHash => -1918914929;
+  int get rustContentHash => -2047642745;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -84,6 +85,21 @@ abstract class RustLibApi extends BaseApi {
   String crateApiSimpleGreet({required String name});
 
   Future<void> crateApiSimpleInitApp();
+
+  String crateApiSpikeSpikeLoroRoundtrip();
+
+  Future<BigInt> crateApiSpikeSpikeSqliteCount();
+
+  Future<void> crateApiSpikeSpikeSqliteInit();
+
+  Future<BigInt> crateApiSpikeSpikeSqliteInsert({required int rows});
+
+  Stream<SpikeRtcEvent> crateApiSpikeSpikeWebrtcConnect({
+    required String relayUrl,
+    required String room,
+  });
+
+  void crateApiSpikeSpikeWebrtcSend({required String text});
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -144,6 +160,187 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiSimpleInitAppConstMeta =>
       const TaskConstMeta(debugName: "init_app", argNames: []);
 
+  @override
+  String crateApiSpikeSpikeLoroRoundtrip() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_String,
+          decodeErrorData: sse_decode_String,
+        ),
+        constMeta: kCrateApiSpikeSpikeLoroRoundtripConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSpikeSpikeLoroRoundtripConstMeta =>
+      const TaskConstMeta(debugName: "spike_loro_roundtrip", argNames: []);
+
+  @override
+  Future<BigInt> crateApiSpikeSpikeSqliteCount() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 4,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_u_64,
+          decodeErrorData: sse_decode_String,
+        ),
+        constMeta: kCrateApiSpikeSpikeSqliteCountConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSpikeSpikeSqliteCountConstMeta =>
+      const TaskConstMeta(debugName: "spike_sqlite_count", argNames: []);
+
+  @override
+  Future<void> crateApiSpikeSpikeSqliteInit() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 5,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: sse_decode_String,
+        ),
+        constMeta: kCrateApiSpikeSpikeSqliteInitConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSpikeSpikeSqliteInitConstMeta =>
+      const TaskConstMeta(debugName: "spike_sqlite_init", argNames: []);
+
+  @override
+  Future<BigInt> crateApiSpikeSpikeSqliteInsert({required int rows}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_u_32(rows, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 6,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_u_64,
+          decodeErrorData: sse_decode_String,
+        ),
+        constMeta: kCrateApiSpikeSpikeSqliteInsertConstMeta,
+        argValues: [rows],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSpikeSpikeSqliteInsertConstMeta =>
+      const TaskConstMeta(debugName: "spike_sqlite_insert", argNames: ["rows"]);
+
+  @override
+  Stream<SpikeRtcEvent> crateApiSpikeSpikeWebrtcConnect({
+    required String relayUrl,
+    required String room,
+  }) {
+    final events = RustStreamSink<SpikeRtcEvent>();
+    unawaited(
+      handler.executeNormal(
+        NormalTask(
+          callFfi: (port_) {
+            final serializer = SseSerializer(generalizedFrbRustBinding);
+            sse_encode_String(relayUrl, serializer);
+            sse_encode_String(room, serializer);
+            sse_encode_StreamSink_spike_rtc_event_Sse(events, serializer);
+            pdeCallFfi(
+              generalizedFrbRustBinding,
+              serializer,
+              funcId: 7,
+              port: port_,
+            );
+          },
+          codec: SseCodec(
+            decodeSuccessData: sse_decode_unit,
+            decodeErrorData: sse_decode_String,
+          ),
+          constMeta: kCrateApiSpikeSpikeWebrtcConnectConstMeta,
+          argValues: [relayUrl, room, events],
+          apiImpl: this,
+        ),
+      ),
+    );
+    return events.stream;
+  }
+
+  TaskConstMeta get kCrateApiSpikeSpikeWebrtcConnectConstMeta =>
+      const TaskConstMeta(
+        debugName: "spike_webrtc_connect",
+        argNames: ["relayUrl", "room", "events"],
+      );
+
+  @override
+  void crateApiSpikeSpikeWebrtcSend({required String text}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_String(text, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: sse_decode_String,
+        ),
+        constMeta: kCrateApiSpikeSpikeWebrtcSendConstMeta,
+        argValues: [text],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSpikeSpikeWebrtcSendConstMeta =>
+      const TaskConstMeta(debugName: "spike_webrtc_send", argNames: ["text"]);
+
+  @protected
+  AnyhowException dco_decode_AnyhowException(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return AnyhowException(raw as String);
+  }
+
+  @protected
+  RustStreamSink<SpikeRtcEvent> dco_decode_StreamSink_spike_rtc_event_Sse(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    throw UnimplementedError();
+  }
+
   @protected
   String dco_decode_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -154,6 +351,41 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as Uint8List;
+  }
+
+  @protected
+  SpikeRtcEvent dco_decode_spike_rtc_event(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return SpikeRtcEvent_Joined(me: dco_decode_String(raw[1]));
+      case 1:
+        return SpikeRtcEvent_PeerJoined(peer: dco_decode_String(raw[1]));
+      case 2:
+        return SpikeRtcEvent_PeerLeft(peer: dco_decode_String(raw[1]));
+      case 3:
+        return SpikeRtcEvent_Connected(peer: dco_decode_String(raw[1]));
+      case 4:
+        return SpikeRtcEvent_Message(text: dco_decode_String(raw[1]));
+      case 5:
+        return SpikeRtcEvent_Closed();
+      case 6:
+        return SpikeRtcEvent_Error(message: dco_decode_String(raw[1]));
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
+  int dco_decode_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
+  BigInt dco_decode_u_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeU64(raw);
   }
 
   @protected
@@ -169,6 +401,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_String(deserializer);
+    return AnyhowException(inner);
+  }
+
+  @protected
+  RustStreamSink<SpikeRtcEvent> sse_decode_StreamSink_spike_rtc_event_Sse(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    throw UnimplementedError('Unreachable ()');
+  }
+
+  @protected
   String sse_decode_String(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
@@ -180,6 +427,49 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var len_ = sse_decode_i_32(deserializer);
     return deserializer.buffer.getUint8List(len_);
+  }
+
+  @protected
+  SpikeRtcEvent sse_decode_spike_rtc_event(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_me = sse_decode_String(deserializer);
+        return SpikeRtcEvent_Joined(me: var_me);
+      case 1:
+        var var_peer = sse_decode_String(deserializer);
+        return SpikeRtcEvent_PeerJoined(peer: var_peer);
+      case 2:
+        var var_peer = sse_decode_String(deserializer);
+        return SpikeRtcEvent_PeerLeft(peer: var_peer);
+      case 3:
+        var var_peer = sse_decode_String(deserializer);
+        return SpikeRtcEvent_Connected(peer: var_peer);
+      case 4:
+        var var_text = sse_decode_String(deserializer);
+        return SpikeRtcEvent_Message(text: var_text);
+      case 5:
+        return SpikeRtcEvent_Closed();
+      case 6:
+        var var_message = sse_decode_String(deserializer);
+        return SpikeRtcEvent_Error(message: var_message);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
+  int sse_decode_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint32();
+  }
+
+  @protected
+  BigInt sse_decode_u_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getBigUint64();
   }
 
   @protected
@@ -206,6 +496,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_AnyhowException(
+    AnyhowException self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.message, serializer);
+  }
+
+  @protected
+  void sse_encode_StreamSink_spike_rtc_event_Sse(
+    RustStreamSink<SpikeRtcEvent> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(
+      self.setupAndSerialize(
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_spike_rtc_event,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+      ),
+      serializer,
+    );
+  }
+
+  @protected
   void sse_encode_String(String self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
@@ -219,6 +535,48 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     serializer.buffer.putUint8List(self);
+  }
+
+  @protected
+  void sse_encode_spike_rtc_event(
+    SpikeRtcEvent self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case SpikeRtcEvent_Joined(me: final me):
+        sse_encode_i_32(0, serializer);
+        sse_encode_String(me, serializer);
+      case SpikeRtcEvent_PeerJoined(peer: final peer):
+        sse_encode_i_32(1, serializer);
+        sse_encode_String(peer, serializer);
+      case SpikeRtcEvent_PeerLeft(peer: final peer):
+        sse_encode_i_32(2, serializer);
+        sse_encode_String(peer, serializer);
+      case SpikeRtcEvent_Connected(peer: final peer):
+        sse_encode_i_32(3, serializer);
+        sse_encode_String(peer, serializer);
+      case SpikeRtcEvent_Message(text: final text):
+        sse_encode_i_32(4, serializer);
+        sse_encode_String(text, serializer);
+      case SpikeRtcEvent_Closed():
+        sse_encode_i_32(5, serializer);
+      case SpikeRtcEvent_Error(message: final message):
+        sse_encode_i_32(6, serializer);
+        sse_encode_String(message, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_u_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint32(self);
+  }
+
+  @protected
+  void sse_encode_u_64(BigInt self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putBigUint64(self);
   }
 
   @protected

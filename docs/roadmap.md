@@ -15,10 +15,24 @@ Work through the milestones in order. Each milestone has acceptance criteria tha
 
 ## M1 — Web risk spike (required before features)
 
-- [ ] SQLite WASM + OPFS from Rust in Flutter Web: write & read 1,000 rows, persisted across reloads
-- [ ] Loro runs in WASM: create a document, edit, export/import
-- [ ] Two browser tabs connected via a local relay + WebRTC DataChannel, exchanging messages
-- [ ] Record results & decisions in an ADR
+- [x] SQLite WASM + OPFS from Rust in Flutter Web: write & read 1,000 rows, persisted across reloads
+  - [x] `rusqlite` 0.41 on web via `sqlite-wasm-rs` 0.6; OPFS through `sqlite-wasm-vfs` 0.3 (`sahpool`)
+  - [x] Database actor pinned to one Web Worker (`crates/ffi/src/spike_db.rs`); native uses a file connection
+  - [x] API `spike_sqlite_init` / `spike_sqlite_insert` / `spike_sqlite_count` (`crates/ffi/src/api/spike.rs`)
+  - [x] `scripts/run-web.sh` builds SQLite's C code with atomics to match frb's shared-memory WASM
+  - [x] Verified in Chrome: 1,000 rows written, still there after reload, 2,000 after a second write
+- [x] Loro runs in WASM: create a document, edit, export/import
+  - [x] `spike_loro_roundtrip`: edit → snapshot export → import → edit → update export/import → merged text
+  - [x] Verified natively (unit test) and in Chrome (`Hello, WASM Loro!`)
+- [x] Two browser tabs connected via a local relay + WebRTC DataChannel, exchanging messages
+  - [x] Relay message types shared in `oknoted_core::signal` (`sync-protocol.md` §7), wire-format test
+  - [x] `crates/relay`: axum WebSocket server, rooms in memory, 16 KiB payload / 30 msg/s / 32 peers limits, logs ids and sizes only, `--listen`
+  - [x] `crates/net-web` spike: relay client + `RTCPeerConnection` + DataChannel `oknoted`, host candidates only, non-trickle ICE
+  - [x] API `spike_webrtc_connect` (event stream) / `spike_webrtc_send`
+  - [x] Verified in Chrome: DataChannel opened, messages delivered both ways
+- [x] Record results & decisions in an ADR
+  - [x] [ADR 0007](decisions/0007-web-spike-results.md): threading model, database actor, hazards (single tab per profile, frb `StreamSink` across tabs, build toolchain)
+- [x] Flutter spike screen (`app/lib/features/spike/`) behind a Riverpod provider, EN/ID l10n set up, widget tests with a fake API
 
 **Accepted when:** all three work, or an ADR explains the alternative.
 
