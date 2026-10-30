@@ -87,7 +87,7 @@ Transport receives an encrypted frame
 
 ### 4.3 Discovery & connection
 ```
-Native: mDNS advertises _notesync._udp with account_tag
+Native: mDNS advertises _oknoted._udp with account_tag
  → other devices with the same account_tag try to connect (QUIC)
  → mutual-auth handshake (device certificate signed by the account key)
  → sync session

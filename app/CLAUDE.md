@@ -34,7 +34,7 @@ Planned features: `onboarding`, `workspace`, `editor`, `database`, `search`, `de
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await RustLib.init();
-  runApp(const ProviderScope(child: NoteSyncApp()));
+  runApp(const ProviderScope(child: OkNotedApp()));
 }
 ```
 

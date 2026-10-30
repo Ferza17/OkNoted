@@ -1,10 +1,10 @@
-# CLAUDE.md — NoteSync
+# CLAUDE.md — OkNoted
 
 Primary guide for coding agents. Read this file first, then the documents in `docs/` that are relevant to your task.
 
 ## What this project is
 
-NoteSync is a Notion-like note-taking app that is **open source**, **local-first**, and requires **no login to any server**.
+OkNoted is a Notion-like note-taking app that is **open source**, **local-first**, and requires **no login to any server**.
 Data lives only on the user's devices. Devices belonging to the same account **sync automatically when they are on the same local network (LAN)**.
 
 - Platforms: Android, iOS, Windows, macOS, Linux, Web — **one Flutter app** in `app/`.
@@ -46,14 +46,14 @@ Full details: `docs/folder-structure.md`.
 | Build & test all crates | `cargo test --workspace` |
 | Rust lint (must be clean) | `cargo clippy --workspace --all-targets -- -D warnings` |
 | Format Rust | `cargo fmt --all` |
-| Check core compiles to WASM | `cargo check -p notesync-core --target wasm32-unknown-unknown` |
+| Check core compiles to WASM | `cargo check -p oknoted-core --target wasm32-unknown-unknown` |
 | Dependency audit | `cargo deny check` |
 | Generate Dart↔Rust bindings | `./scripts/codegen.sh` |
 | Run desktop app | `cd app && flutter run -d macos` (or `windows` / `linux`) |
 | Run web app | `./scripts/run-web.sh` |
 | Flutter tests | `cd app && flutter test` |
 | Dart analysis | `cd app && dart analyze` |
-| Run relay locally | `cargo run -p notesync-relay` |
+| Run relay locally | `cargo run -p oknoted-relay` |
 
 After changing anything in `crates/ffi/src/api/**`, you **must** run `./scripts/codegen.sh` before running the app.
 
@@ -92,7 +92,7 @@ After changing anything in `crates/ffi/src/api/**`, you **must** run `./scripts/
 
 - [ ] `cargo fmt --all` and `cargo clippy ... -D warnings` are clean
 - [ ] `cargo test --workspace` passes
-- [ ] `cargo check -p notesync-core --target wasm32-unknown-unknown` passes
+- [ ] `cargo check -p oknoted-core --target wasm32-unknown-unknown` passes
 - [ ] If Dart changed: `dart analyze` is clean and `flutter test` passes
 - [ ] If the ffi API changed: codegen has been run and its output is committed
 - [ ] Docs in `docs/` are updated if behavior, protocol, or schema changed

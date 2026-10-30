@@ -17,11 +17,11 @@ Out of scope: rooted/jailbroken devices controlled by an attacker while unlocked
 ```
 seed phrase (BIP39, 24 words, 256-bit entropy)
   └─ seed = BIP39 seed (PBKDF2, no passphrase by default)
-       └─ account_secret = HKDF-SHA256(seed, info="notesync/v1/account")
-            ├─ account_key (Ed25519)        = HKDF(account_secret, "notesync/v1/sign")
-            ├─ account_tag (16 bytes)       = HKDF(account_secret, "notesync/v1/account-tag" [+ date])
-            ├─ signal_key  (32 bytes)       = HKDF(account_secret, "notesync/v1/signal")
-            └─ backup_key  (32 bytes)       = HKDF(account_secret, "notesync/v1/backup")
+       └─ account_secret = HKDF-SHA256(seed, info="oknoted/v1/account")
+            ├─ account_key (Ed25519)        = HKDF(account_secret, "oknoted/v1/sign")
+            ├─ account_tag (16 bytes)       = HKDF(account_secret, "oknoted/v1/account-tag" [+ date])
+            ├─ signal_key  (32 bytes)       = HKDF(account_secret, "oknoted/v1/signal")
+            └─ backup_key  (32 bytes)       = HKDF(account_secret, "oknoted/v1/backup")
 
 device_key (Ed25519)   = random per installation, never leaves the device
 noise_static (X25519)  = random per installation

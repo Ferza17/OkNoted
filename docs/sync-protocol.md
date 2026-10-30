@@ -13,7 +13,7 @@ This specification is open so other clients can be implemented. Every change mus
 
 ## 2. Discovery (native)
 
-mDNS service: `_notesync._udp.local.`
+mDNS service: `_oknoted._udp.local.`
 
 TXT record:
 
@@ -24,7 +24,7 @@ TXT record:
 | `d` | first 8 bytes of the `DeviceId` (hex), to avoid connecting to itself |
 | `p` | QUIC port |
 
-`account_tag = HKDF(account_secret, info = "notesync/v1/account-tag")[0..16]`.
+`account_tag = HKDF(account_secret, info = "oknoted/v1/account-tag")[0..16]`.
 The tag rotates daily (`info` is suffixed with the UTC date `YYYY-MM-DD`) so devices are not easily tracked on public networks; peers accept today's and yesterday's tag.
 
 Connection rule: when two peers discover each other, the peer with the smaller `DeviceId` (byte comparison) initiates, to avoid duplicate connections.
@@ -34,7 +34,7 @@ Connection rule: when two peers discover each other, the peer with the smaller `
 | Path | Technology | Used by |
 |---|---|---|
 | Native ↔ native | QUIC (quinn), one bidirectional stream per session | desktop, mobile |
-| Web ↔ anyone | WebRTC DataChannel `notesync`, ordered, reliable | web, and native when the peer is web |
+| Web ↔ anyone | WebRTC DataChannel `oknoted`, ordered, reliable | web, and native when the peer is web |
 
 On top of any transport, the protocol uses **frames**:
 
@@ -140,7 +140,7 @@ The relay is a WebSocket server (`wss://`) that **only** forwards messages betwe
 { "type": "signal", "from": "<peer>", "payload": "<base64>" }
 ```
 
-- `payload` holds the WebRTC offer/answer/ICE candidates, sealed with an account-derived key (`HKDF(account_secret, "notesync/v1/signal")`, XChaCha20-Poly1305). The relay cannot read it.
+- `payload` holds the WebRTC offer/answer/ICE candidates, sealed with an account-derived key (`HKDF(account_secret, "oknoted/v1/signal")`, XChaCha20-Poly1305). The relay cannot read it.
 - Limits: payload max 16 KiB, 30 messages/second per connection, 32 peers per room; empty rooms are removed.
 - The relay writes nothing to disk and never logs `payload` contents.
 - ICE: by default only **host candidates** (LAN). Users may enable STUN/TURN in settings; data remains end-to-end encrypted.

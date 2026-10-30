@@ -1,4 +1,4 @@
-# NoteSync
+# OkNoted
 
 A Notion-like note-taking app that is **open source**, **local-first**, and requires **no login to any server**.
 Your notes live only on your devices and sync automatically between your own devices when they are on the same local network.

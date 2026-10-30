@@ -3,7 +3,7 @@
 A monorepo containing a **Rust workspace** (core, storage, network, relay) and **one Flutter app** for every platform (Android, iOS, Windows, macOS, Linux, Web).
 
 ```
-notesync/
+oknoted/
 ├── CLAUDE.md                        # primary guide for coding agents
 ├── crates/                          # ── Rust workspace ──
 │   ├── CLAUDE.md                    # Rust-specific rules

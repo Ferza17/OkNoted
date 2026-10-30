@@ -34,7 +34,7 @@ rustup target add aarch64-apple-ios aarch64-apple-ios-sim
 ## 3. First run
 
 ```bash
-git clone <repo> notesync && cd notesync
+git clone <repo> oknoted && cd oknoted
 cargo build --workspace
 ./scripts/codegen.sh
 cd app
@@ -57,14 +57,14 @@ Cross-Origin-Embedder-Policy: require-corp
 To test web sync, run a local relay:
 
 ```bash
-cargo run -p notesync-relay -- --listen 127.0.0.1:8787
+cargo run -p oknoted-relay -- --listen 127.0.0.1:8787
 ```
 
 ## 5. Testing sync between devices
 
 - Two desktop instances on one machine: run them with different data directories,
-  `NOTESYNC_DATA_DIR=/tmp/a flutter run -d macos` and `NOTESYNC_DATA_DIR=/tmp/b ...`.
-- Automated tests without networking: `cargo test -p notesync-core --features test-util sync::`.
+  `OKNOTED_DATA_DIR=/tmp/a flutter run -d macos` and `OKNOTED_DATA_DIR=/tmp/b ...`.
+- Automated tests without networking: `cargo test -p oknoted-core --features test-util sync::`.
 - Android emulators often don't forward multicast. Use physical devices on the same Wi-Fi to test mDNS.
 
 ## 6. Scripts
@@ -80,9 +80,9 @@ cargo run -p notesync-relay -- --listen 127.0.0.1:8787
 
 | Variable | Purpose |
 |---|---|
-| `NOTESYNC_DATA_DIR` | Override the database location (dev) |
-| `RUST_LOG` | Log level, e.g. `notesync_core=debug,notesync_net_lan=trace` |
-| `NOTESYNC_RELAY_URL` | Relay URL for web builds (default: local relay in debug) |
+| `OKNOTED_DATA_DIR` | Override the database location (dev) |
+| `RUST_LOG` | Log level, e.g. `oknoted_core=debug,oknoted_net_lan=trace` |
+| `OKNOTED_RELAY_URL` | Relay URL for web builds (default: local relay in debug) |
 
 ## 8. Troubleshooting
 

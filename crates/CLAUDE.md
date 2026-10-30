@@ -20,12 +20,12 @@ core  ◄── storage
 
 | Folder | Package name |
 |---|---|
-| `crates/core` | `notesync-core` |
-| `crates/storage` | `notesync-storage` |
-| `crates/net-lan` | `notesync-net-lan` |
-| `crates/net-web` | `notesync-net-web` |
-| `crates/ffi` | `notesync-ffi` |
-| `crates/relay` | `notesync-relay` |
+| `crates/core` | `oknoted-core` |
+| `crates/storage` | `oknoted-storage` |
+| `crates/net-lan` | `oknoted-net-lan` |
+| `crates/net-web` | `oknoted-net-web` |
+| `crates/ffi` | `oknoted-ffi` |
+| `crates/relay` | `oknoted-relay` |
 
 Shared dependencies are declared once in `[workspace.dependencies]` in the root `Cargo.toml` and referenced with `dep = { workspace = true }`.
 
