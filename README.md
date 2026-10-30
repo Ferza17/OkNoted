@@ -33,8 +33,11 @@ For coding agents: start with [CLAUDE.md](CLAUDE.md).
 
 ## Contributing
 
-See `CONTRIBUTING.md`. Security reports: `SECURITY.md`.
+See [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md).
+Security reports: [SECURITY.md](SECURITY.md).
 
 ## License
 
-To be decided (AGPL-3.0 or MIT/Apache-2.0).
+Licensed under either of [Apache License 2.0](LICENSE-APACHE) or [MIT license](LICENSE-MIT), at your option.
+
+Unless you explicitly state otherwise, any contribution you submit for inclusion in this project, as defined in the Apache-2.0 license, is dual licensed as above, without any additional terms or conditions.

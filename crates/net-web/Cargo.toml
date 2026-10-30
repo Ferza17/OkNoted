@@ -1,0 +1,12 @@
+[package]
+name = "oknoted-net-web"
+description = "OkNoted web transport: WebRTC via web-sys and the signaling client."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+repository.workspace = true
+license.workspace = true
+
+[dependencies]
+oknoted-core.workspace = true
